@@ -2,7 +2,7 @@
 
 use tauri::tray::{MouseButton, MouseButtonState, TrayIconBuilder, TrayIconEvent};
 use tauri::{AppHandle, Emitter, Manager, WebviewWindow, WebviewWindowBuilder};
-use tauri_plugin_global_shortcut::{Code, GlobalShortcutExt, Modifiers, Shortcut, ShortcutState};
+use tauri_plugin_global_shortcut::{Code, Modifiers, Shortcut, ShortcutState};
 
 const OVERLAY_LABEL: &str = "stranger_overlay";
 
@@ -38,7 +38,6 @@ fn ensure_overlay_window(app: &AppHandle) -> tauri::Result<WebviewWindow> {
         .resizable(false)
         .decorations(false)
         .always_on_top(true)
-        .transparent(true)
         .visible(false)
         .inner_size(960.0, 600.0)
         .build()
@@ -46,19 +45,22 @@ fn ensure_overlay_window(app: &AppHandle) -> tauri::Result<WebviewWindow> {
 
 fn main() {
     tauri::Builder::default()
-        .plugin(tauri_plugin_global_shortcut::Builder::new().build())
         .setup(|app| {
             let handle = app.handle();
 
             let _window = ensure_overlay_window(&handle)?;
 
-            let shortcut = Shortcut::new(Some(Modifiers::SUPER | Modifiers::SHIFT), Code::Space);
-            handle.global_shortcut().register(shortcut)?;
-            handle.on_global_shortcut_event(|app, _shortcut, event| {
-                if event.state() == ShortcutState::Pressed {
-                    toggle_overlay(app);
-                }
-            });
+            let app_handle = handle.clone();
+            handle.plugin(
+                tauri_plugin_global_shortcut::Builder::new()
+                    .with_shortcut(Shortcut::new(Some(Modifiers::SUPER | Modifiers::SHIFT), Code::Space))?
+                    .with_handler(move |_app, _shortcut, event| {
+                        if event.state() == ShortcutState::Pressed {
+                            toggle_overlay(&app_handle);
+                        }
+                    })
+                    .build(),
+            )?;
 
             if let Some(icon) = app.default_window_icon().cloned() {
                 let app_handle = handle.clone();

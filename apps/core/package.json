@@ -10,11 +10,10 @@
     "lint": "echo \"No linter configured yet\""
   },
   "dependencies": {
-    "@fastify/websocket": "^10.0.1",
+    "@fastify/websocket": "^11.2.0",
     "@stranger/shared": "workspace:*",
     "fastify": "^5.0.0",
     "mongodb": "^6.5.0",
     "zod": "^3.23.8"
-  },
-  "devDependencies": {}
+  }
 }
