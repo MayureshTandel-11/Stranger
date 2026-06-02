@@ -1,0 +1,20 @@
+{
+  "name": "@stranger/core",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "node --watch src/server.js",
+    "build": "echo \"Core package is plain JavaScript.\"",
+    "typecheck": "echo \"Typecheck not required for JavaScript package.\"",
+    "lint": "echo \"No linter configured yet\""
+  },
+  "dependencies": {
+    "@fastify/websocket": "^10.0.1",
+    "@stranger/shared": "workspace:*",
+    "better-sqlite3": "^11.7.0",
+    "fastify": "^5.0.0",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {}
+}

@@ -1,0 +1,31 @@
+{
+  "name": "@stranger/desktop",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "tauri:dev": "tauri dev",
+    "build": "vite build",
+    "tauri:build": "tauri build",
+    "preview": "vite preview --port 4173",
+    "typecheck": "echo \"Typecheck not required for JavaScript package.\"",
+    "lint": "echo \"No linter configured yet\""
+  },
+  "dependencies": {
+    "@stranger/shared": "workspace:*",
+    "@tauri-apps/api": "^2.0.3",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "@tanstack/react-query": "^5.83.0",
+    "zustand": "^5.0.6"
+  },
+  "devDependencies": {
+    "@tauri-apps/cli": "^2.0.3",
+    "@vitejs/plugin-react": "^4.4.1",
+    "vite": "^5.4.19",
+    "tailwindcss": "^3.4.17",
+    "postcss": "^8.5.6",
+    "autoprefixer": "^10.4.21"
+  }
+}

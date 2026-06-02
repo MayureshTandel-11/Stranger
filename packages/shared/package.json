@@ -1,0 +1,15 @@
+{
+  "name": "@stranger/shared",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "main": "src/index.js",
+  "scripts": {
+    "build": "echo \"Shared package is plain JavaScript.\"",
+    "typecheck": "echo \"Typecheck not required for JavaScript package.\"",
+    "lint": "echo \"No linter configured yet\""
+  },
+  "dependencies": {
+    "zod": "^3.23.8"
+  }
+}

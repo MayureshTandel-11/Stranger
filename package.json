@@ -1,0 +1,16 @@
+{
+  "name": "stranger",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Voice-first personal AI operating layer for macOS.",
+  "packageManager": "pnpm@10.12.1",
+  "scripts": {
+    "dev": "turbo dev",
+    "build": "turbo build",
+    "lint": "turbo lint",
+    "typecheck": "turbo typecheck"
+  },
+  "devDependencies": {
+    "turbo": "^2.0.14"
+  }
+}
