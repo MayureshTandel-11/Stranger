@@ -1,18 +1,39 @@
 import { randomUUID } from "node:crypto";
-import { db } from "../db/client.js";
+import { memoriesRepository } from "../db/repositories.js";
 
-export function storeMemory(input) {
+/**
+ * Store memory in MongoDB
+ */
+export async function storeMemory(input) {
   const id = randomUUID();
-  db.prepare(
-    "INSERT INTO memories (id, user_id, kind, content, created_at) VALUES (?, ?, ?, ?, ?)"
-  ).run(id, input.userId, input.kind, input.content, new Date().toISOString());
+  await memoriesRepository.create({
+    id,
+    user_id: input.userId,
+    category: input.kind || "general",
+    content: input.content,
+    salience_score: input.salienceScore || 0.5,
+    source: input.source || "conversation",
+    embedding_id: input.embeddingId || null,
+    created_at: new Date().toISOString(),
+    updated_at: new Date().toISOString()
+  });
   return id;
 }
 
-export function searchMemory(query) {
-  return db
-    .prepare(
-      "SELECT id, user_id, kind, content, created_at FROM memories WHERE content LIKE ? OR kind LIKE ? ORDER BY created_at DESC LIMIT 50"
-    )
-    .all(`%${query}%`, `%${query}%`);
+/**
+ * Search memories in MongoDB
+ */
+export async function searchMemory(query) {
+  if (!query) {
+    return [];
+  }
+  // Search across all users for now (in production, filter by userId)
+  const collection = (await import("../db/mongo-client.js")).getDb().collection("memories");
+  return collection
+    .find({
+      $or: [{ content: { $regex: query, $options: "i" } }, { category: { $regex: query, $options: "i" } }]
+    })
+    .sort({ created_at: -1 })
+    .limit(50)
+    .toArray();
 }
